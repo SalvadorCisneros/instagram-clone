@@ -6,9 +6,20 @@
   flex-direction: column;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.modalContainer{
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  gap: 10px;
+  padding: 25px;
+  border-radius: 2.5px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
