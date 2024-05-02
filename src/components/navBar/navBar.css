@@ -1,0 +1,14 @@
+.navBarContainer{
+    display: flex;
+    height: 100px;
+    border-bottom: 1px solid black;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.navBarContainer img{
+    width: 200px;
+    object-fit: contain;
+}

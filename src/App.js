@@ -9,17 +9,17 @@ import { collection, onSnapshot } from "firebase/firestore";
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
-
+import Alert from '@mui/material/Alert';
+import NavBar from './components/navBar/navBar';
 
 function App() {
   const [posts, setPosts] = useState([]); 
-  const [openSignUp, setOpenSignUp] = useState(false);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const [openSignIn, setOpenSignIn] = useState(false);
-
+  const [openSignUp, setOpenSignUp] = useState(false);
 
   
 
@@ -49,16 +49,22 @@ function App() {
 }, []);
 
 
-  const signUp = (event) => {
-    event.preventDefault();
+const signUp = (event) => {
+  event.preventDefault();
 
-    createUserWithEmailAndPassword(auth,email, password)
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((authUser) => {
+      return updateProfile(authUser.user, {
+        displayName: username,
+      });
+    })
     .catch((error) => alert(error.message));
-  };
+    
+};
 
   const signIn = (event) => {
     event.preventDefault();
-    signInWithEmailAndPassword(auth, password, email)
+    signInWithEmailAndPassword(auth, email, password)
     .catch((error) => alert(error.message));
 
     setOpenSignIn(false);
@@ -71,9 +77,9 @@ function App() {
       setUser(authUser);
 
       if (authUser.displayName){
-
+        
       }  else{
-        // Check if authUser is defined before updating profile
+
         if (authUser) {
           return updateProfile(authUser, {
             displayName: username,
@@ -89,10 +95,22 @@ function App() {
 
   return (
     <div className="App">
-      <Button onClick={signIn}>Sign In</Button>
+      {user ? (
+        <NavBar user={user.displayName}/>
+      ): (
+        null
+      )}
+
+      {user ? (
+        null
+      ): (
+        <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
+      )}
+      
       <Modal 
       open={openSignIn} 
       onClose={() => setOpenSignIn(false)}>
+        
         <div className='signInContainer'>
         <TextField
           required
@@ -111,13 +129,15 @@ function App() {
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
+
+        <Button type='submit' variant="outlined" onClick={signIn}>Sign In</Button>
         </div>
 
       </Modal>
       {user ? (
-        <Button onClick={() => auth.signOut()}>Log Out</Button>
+        <Button variant="outlined" onClick={() => auth.signOut()}>Log Out</Button>
       ): (
-        <Button onClick={signUp}>Sign Up</Button>
+        <Button variant="outlined" onClick={() => setOpenSignUp(true)}>Sign Up</Button>
       )}
       <Modal
         open={openSignUp}
@@ -150,7 +170,7 @@ function App() {
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
-          <Button type='submit' onClick={signUp}>Register</Button>
+          <Button type='submit' variant="outlined" onClick={signUp}>Sign Up</Button>
         </div>
       </Modal>
       
