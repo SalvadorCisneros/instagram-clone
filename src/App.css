@@ -22,6 +22,57 @@
   border-radius: 2.5px;
 }
 
+.signContainer{
+  display: flex;
+  gap: 10px;
+}
+
+.signInContainer{
+  display: flex;
+  gap: 25px;
+  align-items: center;
+  justify-content: center;
+
+  height: 100vh;
+}
+
+.signInButtonsContainer{
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  height: 300px;
+  border-radius: 2.5px;
+  justify-content: center;
+  gap: 20px;
+  padding: 10px;
+  align-items: center;
+}
+
+.signButton{
+  background-color: rgb(129, 128, 128);
+  color: white;
+ 
+  border-radius: 2.5px;
+  border: none;
+  width: 100px;
+  height: 40px;
+  
+}
+
+.navBarContainer{
+  height: 50px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+}
+
+.navBarContainer img{
+  object-fit: contain;
+  height: 100%;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

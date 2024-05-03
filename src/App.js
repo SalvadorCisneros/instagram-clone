@@ -6,11 +6,10 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, updateProfile, signInWithEmailAndPassword} from "firebase/auth";
 import { getStorage } from "firebase/storage";
 import { collection, onSnapshot } from "firebase/firestore";
-import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
-import Alert from '@mui/material/Alert';
-import NavBar from './components/navBar/navBar';
+import Avatar from '@mui/material/Avatar';
+import instagramLogo from "../src/assets/images/instagram-logo.png"
 
 function App() {
   const [posts, setPosts] = useState([]); 
@@ -73,7 +72,6 @@ const signUp = (event) => {
   useEffect(() => {
   onAuthStateChanged(auth,(authUser) => {
     if (authUser){
-      console.log(authUser);
       setUser(authUser);
 
       if (authUser.displayName){
@@ -95,16 +93,22 @@ const signUp = (event) => {
 
   return (
     <div className="App">
+
+      
+    <div className='navBarContainer'>
+      <img src={instagramLogo} alt="" />
+
+      <div className='signContainer'>
       {user ? (
-        <NavBar user={user.displayName}/>
-      ): (
+        <Avatar>{user.displayName.charAt(0)}</Avatar>
+      ):(
         null
       )}
 
-      {user ? (
+    {user ? (
         null
       ): (
-        <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
+        <button className='signButton' onClick={() => setOpenSignIn(true)}>Sign In</button>
       )}
       
       <Modal 
@@ -112,7 +116,9 @@ const signUp = (event) => {
       onClose={() => setOpenSignIn(false)}>
         
         <div className='signInContainer'>
-        <TextField
+          <div className='signInButtonsContainer'>
+          <TextField
+          className='inputTextField'
           required
           id="outlined-required"
           label="Email"
@@ -121,6 +127,7 @@ const signUp = (event) => {
           
         />
           <TextField
+          className='inputTextField'
           required
           id="outlined-password-input"
           label="Password"
@@ -130,14 +137,19 @@ const signUp = (event) => {
           onChange={(event) => setPassword(event.target.value)}
         />
 
-        <Button type='submit' variant="outlined" onClick={signIn}>Sign In</Button>
+        <button className='signButton' type='submit' onClick={signIn}>Sign In</button>
+            
+          </div>
+        
+
+        
         </div>
 
       </Modal>
       {user ? (
-        <Button variant="outlined" onClick={() => auth.signOut()}>Log Out</Button>
+        <button className='signButton' variant="outlined" onClick={() => auth.signOut()}>Log Out</button>
       ): (
-        <Button variant="outlined" onClick={() => setOpenSignUp(true)}>Sign Up</Button>
+        <button className='signButton' variant="outlined" onClick={() => setOpenSignUp(true)}>Sign Up</button>
       )}
       <Modal
         open={openSignUp}
@@ -146,6 +158,7 @@ const signUp = (event) => {
       >
         <div className='modalContainer'>
         <TextField
+          className='inputTextField'
           required
           id="outlined-required"
           label="Username"
@@ -154,6 +167,7 @@ const signUp = (event) => {
          
         />
           <TextField
+          className='inputTextField'
           required
           id="outlined-required"
           label="Email"
@@ -162,6 +176,7 @@ const signUp = (event) => {
           
         />
           <TextField
+          className='inputTextField'
           required
           id="outlined-password-input"
           label="Password"
@@ -170,9 +185,19 @@ const signUp = (event) => {
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
-          <Button type='submit' variant="outlined" onClick={signUp}>Sign Up</Button>
+          <button className='signButton' type='submit' variant="outlined" onClick={signUp}>Sign Up</button>
         </div>
       </Modal>
+
+      </div>
+
+      
+      
+      
+    </div>
+     
+
+      
       
       {posts.map(post => (
         <Post key={post.id} id={post.id} post={post.post} />
